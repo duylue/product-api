@@ -10,6 +10,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.sql.SQLException;
+import java.sql.SQLSyntaxErrorException;
+
 @Service
 public class ProductServiceImpl extends BaseResponse implements ProductService {
     @Autowired
@@ -17,8 +20,12 @@ public class ProductServiceImpl extends BaseResponse implements ProductService {
 
     @Override
     public ResponseEntity<?> getAll() {
-
+        try {
             return getResponseEntity(productRepo.findAll());
+        } catch (Exception s) {
+
+            throw new BusinessException(500, "Syntax Exception");
+        }
 
 
     }
