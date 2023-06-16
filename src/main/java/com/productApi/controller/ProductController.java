@@ -17,16 +17,14 @@ public class ProductController {
     @GetMapping("/get-all")
     public ResponseEntity<?> getAll(@RequestHeader String username,
                                     @RequestHeader String sessionId) {
-        System.out.println(username);
-        return ResponseEntity.ok("Thanh Cong roi").status(200).body(productService.getAll());
+        return productService.getAll();
 
 
     }
 
     @PostMapping("/save")
     public ResponseEntity<?> save(@RequestBody Product product) {
-        productService.save(product);
-        return ResponseEntity.ok(HttpStatus.OK).status(200).body("Thanh Cong");
+        return productService.save(product);
 
 
     }

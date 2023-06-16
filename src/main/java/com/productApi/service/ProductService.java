@@ -2,10 +2,11 @@ package com.productApi.service;
 
 
 import com.productApi.model.Product;
+import org.springframework.http.ResponseEntity;
 
 import java.util.List;
 
 public interface ProductService {
-    List<Product> getAll();
-    void save(Product product);
+    ResponseEntity<?> getAll();
+    ResponseEntity<?> save(Product product);
 }
