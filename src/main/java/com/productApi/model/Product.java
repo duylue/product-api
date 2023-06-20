@@ -5,7 +5,7 @@ import lombok.Setter;
 
 import javax.persistence.*;
 
-@Entity()
+@Entity
 @Table(name = "product")
 @Getter
 @Setter
@@ -17,5 +17,4 @@ public class Product {
     private double price;
     private int cid;
     private int sid;
-    private int tid;
 }

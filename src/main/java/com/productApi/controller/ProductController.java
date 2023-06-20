@@ -9,14 +9,14 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
+@CrossOrigin("*")
 @RequestMapping("/pro-api")
 public class ProductController {
     @Autowired
     private ProductService productService;
 
     @GetMapping("/get-all")
-    public ResponseEntity<?> getAll(@RequestHeader String username,
-                                    @RequestHeader String sessionId) {
+    public ResponseEntity<?> getAll() {
         return productService.getAll();
 
 
