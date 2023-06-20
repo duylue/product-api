@@ -10,5 +10,5 @@ import java.util.Objects;
 public interface ProductService {
     List<Product> getAll();
     void save(Product product);
-    List<Map<String, Objects>>getInfoSaleProduct();
+
 }

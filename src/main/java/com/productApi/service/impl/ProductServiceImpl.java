@@ -26,8 +26,5 @@ public class ProductServiceImpl implements ProductService {
         productRepo.save(product);
     }
 
-    @Override
-    public List<Map<String, Objects>> getInfoSaleProduct() {
-        return productRepo.getInfoSaleProduct();
-    }
+
 }

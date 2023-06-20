@@ -12,6 +12,5 @@ import java.util.Objects;
 
 @Repository
 public interface ProductRepo extends JpaRepository<Product,Integer> {
-    @Query(value ="call test()" ,nativeQuery = true)
-    List<Map<String, Objects>>getInfoSaleProduct();
+
 }
