@@ -8,6 +8,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Map;
+import java.util.Objects;
+
 @Service
 public class ProductServiceImpl implements ProductService {
     @Autowired
@@ -21,5 +24,10 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public void save(Product product) {
         productRepo.save(product);
+    }
+
+    @Override
+    public List<Map<String, Objects>> getInfoSaleProduct() {
+        return productRepo.getInfoSaleProduct();
     }
 }
