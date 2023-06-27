@@ -3,7 +3,9 @@ package com.productApi.controller;
 
 import com.productApi.model.Product;
 import com.productApi.model.ProductDTO;
+import com.productApi.repo.CategoryRepo;
 import com.productApi.response.BaseResponse;
+import com.productApi.service.CategoryService;
 import com.productApi.service.ProductService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -23,11 +25,18 @@ public class ProductController {
     Logger logger = LoggerFactory.getLogger(ProductController.class);
     @Autowired
     private ProductService productService;
-
+    @Autowired
+    private CategoryService categoryService;
     @GetMapping("/get-all")
     public ResponseEntity<?> getAll() {
         logger.info("---getAll---");
         return productService.getAll();
+
+    }
+    @GetMapping("/get-list-category")
+    public ResponseEntity<?> getAllCategory() {
+        logger.info("---getAllCategory---");
+        return categoryService.getAll();
 
     }
     @GetMapping("/page-product-list")
