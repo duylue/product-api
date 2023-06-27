@@ -14,7 +14,6 @@ public interface ProductService {
     ResponseEntity<?> getAll();
     ResponseEntity<?> getAll(int page,int size);
     ResponseEntity<?> save(Product product);
-
     ResponseEntity<?> delete(int id);
     ResponseEntity<?> getEmSales();
     ResponseEntity<?>getSumSales(int pid);
