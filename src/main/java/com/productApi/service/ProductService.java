@@ -19,5 +19,6 @@ public interface ProductService {
     ResponseEntity<?> getEmSales();
     ResponseEntity<?>getSumSales(int pid);
     ResponseEntity<?>getProductDTOList();
+    ResponseEntity<?> getProductDTOByID(int id);
 
 }

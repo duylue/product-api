@@ -41,10 +41,38 @@ public interface ProductRepo extends PagingAndSortingRepository<Product, Integer
             "     category c\n" +
             "where p.cid = c.cid\n" +
             "  and p.sid = s.sid\n" +
+            "  and p.sid = s.sid\n" +
             "limit 10", nativeQuery = true)
     List<Map<String, Objects>> getProductDTOList();
+        @Query(value = "select p.id\n" +
+                "     , p.pname\n" +
+                "     , p.price\n" +
+                "     , s.sname\n" +
+                "     , c.cname\n" +
+                "from product p,\n" +
+                "     status s,\n" +
+                "     category c\n" +
+                "where p.cid = c.cid\n" +
+                "  and p.sid = s.sid\n" +
+                "  and p.sid = s.sid\n" +
+                "limit 10", nativeQuery = true)
+        Page<Map<String, Objects>> getProductDTOList(Pageable pageable);
+    @Query(value = "select p.id\n" +
+            "     , p.pname\n" +
+            "     , p.price\n" +
+            "     , s.sname\n" +
+            "     , c.cname\n" +
+            "from product p,\n" +
+            "     status s,\n" +
+            "     category c\n" +
+            "where p.cid = c.cid\n" +
+            "  and p.sid = s.sid\n" +
+            "  and p.sid = s.sid\n" +
+            "  and p.id = ?\n"
+            , nativeQuery = true)
+    Map<String, Objects> getProductDTOByID(int id);
 
-    List<Product> findAllBySid(int sid, Pageable pageable);
+
     Page<Product> findAll(Pageable pageable);
     List<Product>  findAll(Sort sort);
 }

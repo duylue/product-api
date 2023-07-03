@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.productApi.exception.BusinessException;
 import com.productApi.model.Product;
 import com.productApi.model.ProductDTO;
+import com.productApi.repo.ProductDTORepo;
 import com.productApi.repo.ProductRepo;
 import com.productApi.response.BaseResponse;
 import com.productApi.service.ProductService;
@@ -23,14 +24,15 @@ import java.util.Objects;
 public class ProductServiceImpl extends BaseResponse implements ProductService {
     @Autowired
     private ProductRepo productRepo;
-
+    @Autowired
+    private ProductDTORepo dtoRepo;
 
     @Override
     public ResponseEntity<?> getAll(int page, int size) {
         try {
 
-            Pageable secondPageWithFiveElements = PageRequest.of(page, size);
-            return getResponseEntity(productRepo.findAll(secondPageWithFiveElements));
+            Pageable pageable = PageRequest.of(page, size);
+            return getResponseEntity(productRepo.findAll(pageable));
         } catch (Exception e) {
             throw new BusinessException(500, e.getMessage());
         }
@@ -91,9 +93,20 @@ public class ProductServiceImpl extends BaseResponse implements ProductService {
             throw new BusinessException(500,e.getCause().getMessage());
         }
 
+    }
 
+    @Override
+    public ResponseEntity<?> getProductDTOByID(int id) {
+        try {
+            logger.info("----getProductDTOById---");
+            Map<String,Objects> map = productRepo.getProductDTOByID(id);
+            ObjectMapper mapper = new ObjectMapper();
+            ProductDTO dto = mapper.convertValue(map,ProductDTO.class);
+            return getResponseEntity(dto);
 
-
+        }catch (Exception e){
+            throw new BusinessException(500,e.getCause().getMessage());
+        }
 
     }
 }

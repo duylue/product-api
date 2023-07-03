@@ -52,6 +52,11 @@ public class ProductController {
         return productService.delete(id);
 
     }
+    @GetMapping("/get-product-by-id")
+    public ResponseEntity<?> productById(@RequestParam("id") int id) {
+        return productService.getProductDTOByID(id);
+
+    }
     @GetMapping("/get-em-sales")
     public ResponseEntity<?> getEmSales() {
         return productService.getEmSales();
