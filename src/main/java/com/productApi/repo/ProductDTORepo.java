@@ -21,7 +21,6 @@ public interface ProductDTORepo extends PagingAndSortingRepository<ProductDTO,In
             "     category c\n" +
             "where p.cid = c.cid\n" +
             "  and p.sid = s.sid\n" +
-            "  and p.sid = s.sid\n" +
-            "limit 10", nativeQuery = true)
+            "  and p.sid = s.sid\n", nativeQuery = true)
     List<ProductDTO> getProductDTOList(     );
 }

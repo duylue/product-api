@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html
+        xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Product</title>
+  <script th:src="@{/jquery/jquery-3.7.0.min.js}"> </script>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
+          integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
+          crossorigin="anonymous"></script>
+</head>
+<body>
+<div class="container">
+  <div th:insert="common/fragment::navbar" ></div>
+  <table class="table">
+    <thead>
+    <tr>
+      <th>id</th>
+      <th>product name</th>
+      <th>price</th>
+      <th>Trạng thái</th>
+      <th>Loại sản phẩm</th>
+
+    </tr>
+    </thead>
+
+    <tbody id="view">
+
+
+    </tbody>
+
+  </table>
+  <br>
+  <!-- Modal list -->
+  <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content" style="width:800px;height: 500px;margin-left: -60px">
+        <div class="modal-header">
+          <h5 class="modal-title" id="staticBackdropLabel">Modal title</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+
+          <table class="table table-striped">
+            <thead>
+            <tr>
+              <th scope="col">id</th>
+              <th scope="col">product name</th>
+              <th scope="col">price</th>
+              <th scope="col">Trạng thái</th>
+              <th scope="col">Loại sản phẩm</th>
+
+            </tr>
+            </thead>
+
+            <tbody id="view2">
+
+
+            </tbody>
+
+          </table>
+          <br>
+          <nav aria-label="Page navigation example">
+            <ul class="pagination" id="pagination">
+
+            </ul>
+          </nav>
+
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- Modal create-->
+  <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+
+          <div class="input-group mb-3">
+            <span class="input-group-text" id="inputGroup-sizing-default2">Product Name</span>
+            <input type="text" id="pname" class="form-control" aria-label="Sizing example input"
+                   aria-describedby="inputGroup-sizing-default">
+          </div>
+          <div class="input-group mb-3">
+            <span class="input-group-text" id="inputGroup-sizing-default">Price</span>
+            <input type="text" id="price" class="form-control" aria-label="Sizing example input"
+                   aria-describedby="inputGroup-sizing-default">
+          </div>
+        </div>
+        <div class="form-floating">
+          <select class="form-select" id="listCategory">
+          </select>
+          <label for="listCategory">Category</label>
+        </div>
+        <input type="text" value="1" id="sid" hidden>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-primary" data-bs-dismiss="modal" onclick="save()">Save</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <input type="text" value="0" id="pid" hidden>
+</div>
+
+<script>
+  const proAPI_URL = 'http://localhost:8080/pro-api'
+  $(document).ready(function () {
+
+    getProductList();
+    $('#save').click(function () {
+      getListCategory()
+    })
+    $('#productList').click(function () {
+      getProductList2()
+    })
+    // $('#navbarDropdown').click(function () {
+    //   window.location.href="http://localhost:8080/product"
+    // })
+    // $('#navbarDropdown2').click(function () {
+    //   window.location.href="http://localhost:8080/customer"
+    // })
+
+  })
+
+  function init(data) {
+
+    let view = $('#view')
+    view.empty()
+    let strView = '';
+    for (let i = 0; i < data.length; i++) {
+
+      strView += '    <tr>\n' +
+              '<td>' + data[i].id + '</td>\n' +
+              '<td>' + data[i].pname + '</td>\n' +
+              '<td>' + data[i].price + '</td>\n' +
+              '<td>' + data[i].sname + '</td>\n' +
+              '<td>' + data[i].cname + '</td>\n' +
+              '<td><button type="button" data-bs-toggle="modal"\n' +
+              ' data-bs-target="#exampleModal" onclick="updateProduct(' + data[i].id + ' )" class="btn btn-primary">Sửa</button></td>\n' +
+              '<td><button type="button" \n' +
+              '  onclick="del(' + data[i].id + ' )" class="btn btn-primary">Xóa</button></td>\n' +
+
+              '\n' +
+              '    </tr> '
+
+    }
+    view.append(strView)
+  }
+  function initView2(data,totalPages) {
+    console.log(totalPages)
+    let view = $('#view2')
+    view.empty()
+    let strView = '';
+    for (let i = 0; i < data.length; i++) {
+
+      strView += '    <tr>\n' +
+              '<td>' + data[i].id + '</td>\n' +
+              '<td>' + data[i].pname + '</td>\n' +
+              '<td>' + data[i].price + '</td>\n' +
+              '<td>' + data[i].sid + '</td>\n' +
+              '<td>' + data[i].cid + '</td>\n' +
+              '<td><button type="button" data-bs-toggle="modal"\n' +
+              ' data-bs-target="#exampleModal" onclick="updateProduct(' + data[i].id + ' )" class="btn btn-primary">Sửa</button></td>\n' +
+              '<td><button type="button" \n' +
+              '  onclick="del(' + data[i].id + ' )" class="btn btn-primary">Xóa</button></td>\n' +
+
+              '\n' +
+              '    </tr> '
+    }
+    view.append(strView)
+    pagination(totalPages)
+  }
+  function pagination(totalPages){
+
+    let view = $('#pagination')
+    view.empty()
+    let strView = '';
+    for (let i = 0; i < totalPages; i++) {
+
+      strView += ' <li class="page-item"><a class="page-link" onclick="getProductListByPage('+i+')">'+i+'</a></li>'
+
+    }
+    view.append(strView)
+  }
+
+  function getProductList() {
+    $.ajax({
+      url: proAPI_URL + '/get-product-list',
+      method: 'GET',
+      success: function (resp) {
+        console.log(resp.data);
+        init(resp.data);
+      }, error: function (error) {
+        console.log(error)
+
+      }
+
+    })
+  }
+  function getProductList2() {
+    $.ajax({
+      url: proAPI_URL + '/page-product-list?page=0&size=5',
+      method: 'GET',
+      success: function (resp) {
+        console.log(resp.data);
+        initView2(resp.data.content,resp.data.totalPages);
+      }, error: function (error) {
+        console.log(error)
+
+      }
+
+    })
+  }
+
+  function getProductListByPage(page) {
+    $.ajax({
+      url: proAPI_URL + '/page-product-list?page='+page+'&size=5',
+      method: 'GET',
+      success: function (resp) {
+        console.log(resp.data);
+        initView2(resp.data.content,resp.data.totalPages);
+      }, error: function (error) {
+        console.log(error)
+
+      }
+
+    })
+  }
+
+  function del(id) {
+
+    let c = confirm("Bạn có muốn xóa không ?");
+    if (c == true) {
+      $.ajax({
+        url : proAPI_URL+'/delete?id='+id,
+        method :'GET',
+        success : function (resp){
+          getProductList()
+        }
+
+      })
+
+    }
+
+  }
+
+  function updateProduct(id) {
+    $('#pid').val(id)
+    console.log($('#pid').val())
+    $.ajax({
+      url: proAPI_URL + '/get-product-by-id?id=' + id,
+      method: 'GET',
+      success: function (resp) {
+        console.log(resp.data)
+        $('#pname').val(resp.data.pname)
+        $('#price').val(resp.data.price)
+      }
+
+    })
+    getListCategory()
+  }
+
+  function getListCategory() {
+
+
+    $.ajax({
+      url: proAPI_URL + '/get-list-category',
+      method: 'GET',
+      success: function (resp) {
+        var select = $('#listCategory')
+        select.empty()
+        console.log(resp.data)
+        let optionsStr = '';
+
+        for (let i = 0; i < resp.data.length; i++) {
+          optionsStr += '<option value="' + resp.data[i].cid + '">' + resp.data[i].cname + '</option>\n'
+
+        }
+        select.append(optionsStr)
+      }, error: function (error) {
+        console.log(error)
+
+      }
+
+    })
+  }
+function reload(){
+  $('#pname').val('');
+  $('#price').val('')
+}
+  function save() {
+
+    let data = {};
+    let pid = $('#pid').val();
+    data.pname = $('#pname').val();
+    data.price = $('#price').val();
+    data.sid = $('#sid').val();
+    data.cid = $('#listCategory').val();
+
+    if (pid > 1) {
+      data.id = pid
+    }
+    $.ajax({
+      url: proAPI_URL + '/save',
+      method: 'POST',
+      data: JSON.stringify(data),
+      contentType: 'application/json',
+      success: function (resp) {
+        console.log(resp.data);
+        $('#pid').val(-1);
+        $('#pname').val('');
+        $('#price').val('')
+        getProductList()
+      }, error: function (error) {
+        console.log(error)
+
+      }
+
+    })
+
+  }
+
+</script>
+
+
+
+
+
+
+</body>
+</html>

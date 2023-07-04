@@ -41,8 +41,7 @@ public interface ProductRepo extends PagingAndSortingRepository<Product, Integer
             "     category c\n" +
             "where p.cid = c.cid\n" +
             "  and p.sid = s.sid\n" +
-            "  and p.sid = s.sid\n" +
-            "limit 10", nativeQuery = true)
+            "  and p.sid = s.sid\n" , nativeQuery = true)
     List<Map<String, Objects>> getProductDTOList();
         @Query(value = "select p.id\n" +
                 "     , p.pname\n" +

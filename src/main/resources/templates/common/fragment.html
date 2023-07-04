@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html
+        xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<nav th:fragment="navbar" class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="#">HOME</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                data-bs-target="#navbarSupportedContent"
+                aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="/product" id="navbarDropdown" role="button"
+                       data-bs-toggle="dropdown" aria-expanded="false">
+                        Product
+                    </a>
+                    <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <li>
+                            <a href="/product" id="homeProduct" class="btn btn-primary dropdown-item"
+                                    >
+                                List
+                            </a>
+                        </li>
+                        <li>
+                            <button type="button" id="save" class="btn btn-primary dropdown-item"
+                                    data-bs-toggle="modal"
+                                    data-bs-target="#exampleModal">
+                                Create
+                            </button>
+                        </li>
+                        <li><!-- Button trigger modal -->
+                            <button  type="button" id="productList" class="btn btn-primary dropdown-item" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+                                Product List
+                            </button></li>
+                        <li>
+                            <hr class="dropdown-divider">
+                        </li>
+                        <li><a class="dropdown-item" href="#">Something else here</a></li>
+                    </ul>
+
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="/customer" id="navbarDropdown2" role="button"
+                       data-bs-toggle="dropdown" aria-expanded="false">
+                        Customer
+                    </a>
+                    <ul class="dropdown-menu" aria-labelledby="navbarDropdown2">
+                        <li>
+                            <a href="/customer" id="homeCustomer" class="btn btn-primary dropdown-item"
+
+                            >
+                                List
+                            </a>
+                        </li>
+                        <li>
+                            <button type="button" id="saveCustomer" class="btn btn-primary dropdown-item"
+                                    data-bs-toggle="modal"
+                                    data-bs-target="#exampleModal">
+                                Create
+                            </button>
+                        </li>
+                        <li><!-- Button trigger modal -->
+                            <button  type="button" id="orderList" class="btn btn-primary dropdown-item" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+                                Customer Order list
+                            </button></li>
+                        <li>
+                            <hr class="dropdown-divider">
+                        </li>
+                        <li><a class="dropdown-item" href="#">Something else here</a></li>
+                    </ul>
+
+                </li>
+
+            </ul>
+            <form class="d-flex">
+                <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+                <button class="btn btn-outline-success" type="submit">Search</button>
+            </form>
+        </div>
+    </div>
+</nav>
+</body>
+</html>
