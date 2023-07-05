@@ -33,10 +33,11 @@ dependencies {
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 // https://mvnrepository.com/artifact/org.springframework.session/spring-session-jdbc
 	implementation group: 'org.springframework.session', name: 'spring-session-jdbc', version: '2.7.0'
-
-//	implementation group: 'org.springframework.security', name: 'spring-security-core', version: '5.4.2'
 //
-//	implementation group: 'org.springframework.security', name: 'spring-security-config', version: '5.8.3'
+	implementation group: 'org.springframework.security', name: 'spring-security-core', version: '5.4.2'
+
+	implementation group: 'org.springframework.security', name: 'spring-security-config', version: '5.8.3'
+
 
 
 
