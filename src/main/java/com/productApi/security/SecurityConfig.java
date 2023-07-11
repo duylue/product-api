@@ -40,6 +40,7 @@ public class SecurityConfig  {
         http.csrf().disable()
                 .authorizeHttpRequests((authorize) ->
                         authorize.antMatchers("/index").permitAll()
+                                .antMatchers("/pro-api/**").permitAll()
                                 .antMatchers("/register/**").permitAll()
                                 .antMatchers("/users/**").hasAnyRole("ADMIN","USER")
                                 .antMatchers("/admin/**").hasRole("ADMIN")
