@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -31,12 +32,16 @@ public class UserServiceImpl implements UserService {
         user.setEmail(userDto.getEmail());
         // encrypt the password using spring security
         user.setPassword(passwordEncoder.encode(userDto.getPassword()));
-
-        Role role = roleRepository.findByName("ROLE_ADMIN");
-        if (role == null) {
-            role = checkRoleExist();
+        List<Role> roles = new ArrayList<>();
+        for (int i = 0; i < userDto.getRoles().length; i++) {
+            Role role = roleRepository.findByName(userDto.getRoles()[i]);
+            roles.add(role);
         }
-        user.setRoles(Arrays.asList(role));
+
+//        if (role == null) {
+//            role = checkRoleExist();
+//        }
+        user.setRoles(roles);
         userRepository.save(user);
     }
 

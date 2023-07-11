@@ -1,7 +1,9 @@
 package com.productApi.controller;
 
+import com.productApi.model.Role;
 import com.productApi.model.User;
 import com.productApi.model.UserDto;
+import com.productApi.repo.RoleRepo;
 import com.productApi.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -26,16 +28,21 @@ public class HomeController {
     public String showRegistrationForm(Model model) {
         // create model object to store form data
         UserDto user = new UserDto();
+        List<Role> roles = repo.findAll();
+        model.addAttribute("roles", roles);
         model.addAttribute("user", user);
         return "register";
     }
 
     @Autowired
     UserService userService;
+    @Autowired
+    RoleRepo repo;
     @GetMapping("/users")
     public String users(Model model){
         List<UserDto> users = userService.findAllUsers();
         model.addAttribute("users", users);
+
         return "users";
     }
     @GetMapping("/users/product")
