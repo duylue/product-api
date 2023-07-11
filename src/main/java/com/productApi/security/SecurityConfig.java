@@ -13,6 +13,7 @@ import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfiguration;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -38,14 +39,21 @@ public class SecurityConfig  {
                                 .antMatchers("/register/**").permitAll()
                                 .antMatchers("/users/**").hasAnyRole("ADMIN","USER")
                                 .antMatchers("/admin/**").hasRole("ADMIN")
+                                .anyRequest().authenticated()
                 ).formLogin(
                         form -> form
                                 .loginPage("/login")
                                 .loginProcessingUrl("/login").passwordParameter("password").usernameParameter("username")
-                                .defaultSuccessUrl("/INDEX")
+                                .defaultSuccessUrl("/index")
                                 .permitAll()
-                ).logout(
-                        logout -> logout
+                ).sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.ALWAYS).
+                        invalidSessionUrl("/logout?expired").maximumSessions(1)
+                        .maxSessionsPreventsLogin(false))
+//                .and()
+//
+                .logout(
+                        logout -> logout.deleteCookies("JSESSIONID").
+                                invalidateHttpSession(true)
                                 .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
                                 .permitAll()
                 );
