@@ -9,7 +9,6 @@ import javax.persistence.Table;
 
 @Getter
 @Setter
-@Entity
 public class ProductDTO {
     @Id
     private int id;

@@ -29,7 +29,7 @@ public class SecurityConfig {
                         authorize.antMatchers("/index").permitAll()
                                 .antMatchers("/dang-ky/**").permitAll()
                                 .antMatchers("/product/**").hasAnyRole("ADMIN","USER")
-                                .antMatchers("/customer/**").hasRole("ADMIN")
+                                .antMatchers("/admin/**").hasRole("ADMIN")
                 ).formLogin(
                         form -> form
                                 .loginPage("/login")

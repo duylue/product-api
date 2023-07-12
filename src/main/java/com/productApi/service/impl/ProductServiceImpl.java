@@ -5,7 +5,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.productApi.exception.BusinessException;
 import com.productApi.model.Product;
 import com.productApi.model.ProductDTO;
-import com.productApi.repo.ProductDTORepo;
 import com.productApi.repo.ProductRepo;
 import com.productApi.response.BaseResponse;
 import com.productApi.service.ProductService;
@@ -24,8 +23,7 @@ import java.util.Objects;
 public class ProductServiceImpl extends BaseResponse implements ProductService {
     @Autowired
     private ProductRepo productRepo;
-    @Autowired
-    private ProductDTORepo dtoRepo;
+
 
 
     @Override
@@ -50,6 +48,7 @@ public class ProductServiceImpl extends BaseResponse implements ProductService {
     public ResponseEntity<?> save(Product product) {
         try {
             productRepo.save(product);
+
             return getResponseEntity("Tao Thanh Cong");
         } catch (Exception e) {
             throw new BusinessException(500, e.getMessage());

@@ -3,16 +3,16 @@ package com.productApi.model;
 import lombok.Getter;
 import lombok.Setter;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 
-@Entity()
-@Table(name = "product")
+
+
 @Getter
 @Setter
+@Entity
 public class Product {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     private String pname;
     private double price;

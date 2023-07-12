@@ -5,10 +5,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
+import java.util.List;
 
 @Getter
 @Setter
@@ -22,6 +20,10 @@ public class User {
     private String name;
     private String username;
     private String password;
-    private String role;
-
+    @ManyToMany(fetch = FetchType.LAZY, cascade=CascadeType.ALL)
+    @JoinTable(
+            name="users_roles",
+            joinColumns={@JoinColumn(name="uid", referencedColumnName="uid")},
+            inverseJoinColumns={@JoinColumn(name="role_id", referencedColumnName="roleId")})
+    p  s;
 }

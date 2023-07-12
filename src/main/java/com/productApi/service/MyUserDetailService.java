@@ -1,5 +1,6 @@
 package com.productApi.service;
 
+import com.productApi.model.Role;
 import com.productApi.model.User;
 import com.productApi.repo.UserRepository;
 import org.springframework.security.core.GrantedAuthority;
@@ -29,15 +30,15 @@ public class MyUserDetailService implements UserDetailsService {
         if (user != null) {
             return new org.springframework.security.core.userdetails.User(user.getUsername(),
                     user.getPassword(),
-                    mapRolesToAuthorities(user.getRole()));
+                    mapRolesToAuthorities(user.getRoles()));
         }else{
             throw new UsernameNotFoundException("Invalid username or password.");
         }
     }
 
-    private Collection< ? extends GrantedAuthority> mapRolesToAuthorities(String roles) {
-        return  Arrays.stream(roles.split(","))
-                .map(SimpleGrantedAuthority::new)
+    private Collection< ? extends GrantedAuthority> mapRolesToAuthorities(Collection<Role> roles) {
+        return  roles.stream().
+                map(s->new SimpleGrantedAuthority(s.getName()))
                 .collect(Collectors.toList());
     }
 }
