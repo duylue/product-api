@@ -11,6 +11,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.Http403ForbiddenEntryPoint;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 @Configuration
@@ -18,18 +19,23 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 public class SecurityConfig {
     @Autowired
     MyUserDetailService userDetailService;
+
     @Bean
-    public static PasswordEncoder passwordEncoder(){
+    public static PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
+
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http.csrf().disable()
                 .authorizeHttpRequests((authorize) ->
-                        authorize.antMatchers("/index").permitAll()
+                        authorize
+                                .antMatchers("/index").permitAll()
                                 .antMatchers("/dang-ky/**").permitAll()
-                                .antMatchers("/product/**").hasAnyRole("ADMIN","USER")
-                                .antMatchers("/admin/**").hasRole("ADMIN")
+                                .antMatchers("/product/**").hasAnyRole("ADMIN", "USER")
+                                .antMatchers("/admin/**").hasRole("ADMIN").
+                                anyRequest().authenticated()
+
                 ).formLogin(
                         form -> form
                                 .loginPage("/login")
@@ -43,6 +49,7 @@ public class SecurityConfig {
                 );
         return http.build();
     }
+
     @Autowired
     public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
         auth
