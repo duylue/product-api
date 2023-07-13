@@ -48,6 +48,10 @@ public class BaseController {
     public ModelAndView product() {
         return new ModelAndView("product/product");
     }
+    @GetMapping("/notify-fob")
+    public ModelAndView fob() {
+        return new ModelAndView("notify403");
+    }
 
     @GetMapping("/login")
     public ModelAndView login() {
