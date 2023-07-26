@@ -19,6 +19,7 @@
     <tr>
       <th>uid</th>
       <th>Username</th>
+      <th>Full Name</th>
       <th>Roles</th>
 
     </tr>
@@ -111,7 +112,7 @@
 </div>
 
 <script>
-  const proAPI_URL = 'http://localhost:8080/pro-api'
+  const userAPI_URL = 'http://localhost:8080/user-api'
   $(document).ready(function () {
 
     getProductList();
@@ -138,15 +139,14 @@
     for (let i = 0; i < data.length; i++) {
 
       strView += '    <tr>\n' +
-              '<td>' + data[i].id + '</td>\n' +
-              '<td>' + data[i].pname + '</td>\n' +
-              '<td>' + data[i].price + '</td>\n' +
-              '<td>' + data[i].sname + '</td>\n' +
-              '<td>' + data[i].cname + '</td>\n' +
+              '<td>' + data[i].uid + '</td>\n' +
+              '<td>' + data[i].username + '</td>\n' +
+              '<td>' + data[i].name + '</td>\n' +
+              '<td>' + data[i].roles[0].name + '</td>\n' +
               '<td><button type="button" data-bs-toggle="modal"\n' +
-              ' data-bs-target="#exampleModal" onclick="updateProduct(' + data[i].id + ' )" class="btn btn-primary">Sửa</button></td>\n' +
+              ' data-bs-target="#exampleModal" onclick="updateProduct(' + data[i].uid + ' )" class="btn btn-primary">Sửa</button></td>\n' +
               '<td><button type="button" \n' +
-              '  onclick="del(' + data[i].id + ' )" class="btn btn-primary">Xóa</button></td>\n' +
+              '  onclick="del(' + data[i].uid + ' )" class="btn btn-primary">Xóa</button></td>\n' +
 
               '\n' +
               '    </tr> '
@@ -193,7 +193,7 @@
 
   function getProductList() {
     $.ajax({
-      url: proAPI_URL + '/get-product-list',
+      url: userAPI_URL + '/get-all-user',
       method: 'GET',
       success: function (resp) {
         console.log(resp.data);
@@ -207,7 +207,7 @@
   }
   function getProductList2() {
     $.ajax({
-      url: proAPI_URL + '/page-product-list?page=0&size=5',
+      url: userAPI_URL + '/page-product-list?page=0&size=5',
       method: 'GET',
       success: function (resp) {
         console.log(resp.data);
@@ -222,7 +222,7 @@
 
   function getProductListByPage(page) {
     $.ajax({
-      url: proAPI_URL + '/page-product-list?page='+page+'&size=5',
+      url: userAPI_URL + '/page-product-list?page='+page+'&size=5',
       method: 'GET',
       success: function (resp) {
         console.log(resp.data);
@@ -240,7 +240,7 @@
     let c = confirm("Bạn có muốn xóa không ?");
     if (c == true) {
       $.ajax({
-        url : proAPI_URL+'/delete?id='+id,
+        url : userAPI_URL+'/delete?id='+id,
         method :'GET',
         success : function (resp){
           getProductList()
@@ -256,7 +256,7 @@
     $('#pid').val(id)
     console.log($('#pid').val())
     $.ajax({
-      url: proAPI_URL + '/get-product-by-id?id=' + id,
+      url: userAPI_URL + '/get-product-by-id?id=' + id,
       method: 'GET',
       success: function (resp) {
         console.log(resp.data)
@@ -272,7 +272,7 @@
 
 
     $.ajax({
-      url: proAPI_URL + '/get-list-category',
+      url: userAPI_URL + '/get-list-category',
       method: 'GET',
       success: function (resp) {
         var select = $('#listCategory')
@@ -309,7 +309,7 @@
       data.id = pid
     }
     $.ajax({
-      url: proAPI_URL + '/save',
+      url: userAPI_URL + '/save',
       method: 'POST',
       data: JSON.stringify(data),
       contentType: 'application/json',

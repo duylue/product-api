@@ -1,10 +1,55 @@
 <!DOCTYPE html>
-<html lang="en">
+<html
+        xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Homepage</title>
+    <title>Title</title>
+
 </head>
+<style>
+    .d1 {
+        width: 640px;
+        height: 400px;
+        margin-left: 460px;
+        margin-top: 100px;
+        border: 1px solid red;
+        background-color: whitesmoke;
+    }
+
+    .c1 {
+        margin-left: 12px
+    }
+    body{
+        background-color: #0dcaf0;
+    }
+</style>
+
 <body>
-Home
+<div class="d1">
+    <h1 style="text-align: center">Dang Ky</h1>
+    <div style="margin-left: 180px;margin-top: 50px;">
+
+        <form method="post" action="/index/save" th:object="${cus}" >
+            <label>Full Name : </label>
+            <input type="text" th:field="*{cusname}" placeholder="Họ tên"><br><br>
+            <label>Birthday : </label>
+            <input type="date" name="birthday" th:value="${{birthday}}" />
+            <label>Address : </label>
+            <select class="c1" th:field="*{aid}">
+                <option value="1">HN</option>
+                <option value="2">Vp</option>
+                <option value="3">DN</option>
+            </select><br><br>
+            <label>Phone : </label>
+            <input th:field="*{phone}" type="text" placeholder="phone" style="margin-left: 22px"><br><br>
+            <button type="submit" style="margin-left: 100px">Dang ky</button>
+        </form>
+    </div>
+</div>
+<script>
+    // document.getElementById('birthday').valueAsDate = new Date('06-0  1-1994');
+
+</script>
+
 </body>
 </html>

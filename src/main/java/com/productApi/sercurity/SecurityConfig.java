@@ -8,6 +8,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
@@ -31,10 +32,14 @@ public class SecurityConfig {
                 .authorizeHttpRequests((authorize) ->
                         authorize
                                 .antMatchers("/index").permitAll()
+                                .antMatchers("/pro-api/**").permitAll()
+                                .antMatchers("/employee/**").permitAll()
+                                .antMatchers("/em-api/**").permitAll()
                                 .antMatchers("/dang-ky/**").permitAll()
-                                .antMatchers("/product/**").hasAnyRole("ADMIN", "USER")
-                                .antMatchers("/admin/**").hasRole("ADMIN").
-                                anyRequest().authenticated()
+                                .antMatchers("/product/**").permitAll()
+                                .antMatchers("/jquery/**").permitAll()
+                                .antMatchers("/admin/**").hasRole("ADMIN").anyRequest()
+                                .authenticated()
 
                 ).formLogin(
                         form -> form
@@ -46,7 +51,14 @@ public class SecurityConfig {
                         logout -> logout
                                 .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
                                 .permitAll()
-                );
+                ).sessionManagement(session->{
+                    session.sessionCreationPolicy(SessionCreationPolicy.ALWAYS)
+                            .invalidSessionUrl("/logout").maximumSessions(1)
+                            .maxSessionsPreventsLogin(false);
+                }).exceptionHandling(exception -> {
+                    exception
+                            .authenticationEntryPoint(new Http403ForbiddenEntryPoint()).accessDeniedPage("/error-fob");
+                });
         return http.build();
     }
 

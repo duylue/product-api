@@ -4,7 +4,7 @@ import com.productApi.model.Role;
 import com.productApi.repo.RoleRepository;
 import com.productApi.service.RoleService;
 import org.springframework.stereotype.Service;
-
+ 
 import java.util.List;
 @Service
 public class RoleServiceImpl implements RoleService {

@@ -13,6 +13,7 @@ public interface ProductService {
 
     ResponseEntity<?> getAll();
     ResponseEntity<?> getAll(int page,int size);
+    ResponseEntity<?> sortP(String name);
     ResponseEntity<?> save(Product product);
 
     ResponseEntity<?> delete(int id);

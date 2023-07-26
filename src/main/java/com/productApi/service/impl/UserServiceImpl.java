@@ -43,8 +43,11 @@ public class UserServiceImpl extends BaseResponse implements UserService {
     @Override
     public ResponseEntity<?> findAll() {
         List<User> users = (List<User>) repository.findAll();
-
-
+        for ( User u : users) {
+            for (Role r : u.getRoles()) {
+                r.setUsers(null);
+            }
+        }
         return getResponseEntity(users);
     }
 }

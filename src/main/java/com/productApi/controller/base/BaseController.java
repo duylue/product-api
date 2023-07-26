@@ -11,7 +11,9 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/")
@@ -24,9 +26,16 @@ public class BaseController {
 
     @Autowired
     private RoleService roleService;
+    @Autowired
+    CustomerRepository customerRepository;
 
     @GetMapping("/index")
     public ModelAndView home() {
+        Optional<Customers> customers = customerRepository.findById(1);
+        Customers customers1 = customers.get();
+        Date birthday = customers1.getBirthday();
+        ModelAndView modelAndView = new ModelAndView("index","cus",customers1);
+        modelAndView.addObject("birthday",birthday);
 //        User user = new User();
 //        user.setPassword("admin");
 //        user.setName("admin");
@@ -41,12 +50,17 @@ public class BaseController {
 //        role.setUsers(users);
 //        userService.save(user);
 
-        return new ModelAndView("index");
+        return modelAndView;
     }
 
     @GetMapping("/product")
     public ModelAndView product() {
         return new ModelAndView("product/product");
+    }
+
+    @GetMapping("/error-fob")
+    public ModelAndView error403() {
+        return new ModelAndView("error403");
     }
 
     @GetMapping("/login")

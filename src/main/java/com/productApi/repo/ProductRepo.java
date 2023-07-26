@@ -73,5 +73,7 @@ public interface ProductRepo extends PagingAndSortingRepository<Product, Integer
 
 
     Page<Product> findAll(Pageable pageable);
+
     List<Product>  findAll(Sort sort);
+
 }

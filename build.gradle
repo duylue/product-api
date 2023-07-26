@@ -29,6 +29,8 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	runtimeOnly 'com.mysql:mysql-connector-j'
 	compileOnly 'org.projectlombok:lombok'
+// https://mvnrepository.com/artifact/org.springframework.session/spring-session-jdbc
+	implementation group: 'org.springframework.session', name: 'spring-session-jdbc', version: '2.7.0'
 
 	annotationProcessor 'org.projectlombok:lombok'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'

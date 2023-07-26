@@ -9,8 +9,10 @@ import com.productApi.repo.ProductRepo;
 import com.productApi.response.BaseResponse;
 import com.productApi.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
@@ -24,13 +26,23 @@ public class ProductServiceImpl extends BaseResponse implements ProductService {
     @Autowired
     private ProductRepo productRepo;
 
+    @Override
+    public ResponseEntity<?> sortP(String name) {
 
+        return getResponseEntity(productRepo.findAll(Sort.by(Sort.Direction.ASC,name)));
+
+    }
 
     @Override
     public ResponseEntity<?> getAll(int page, int size) {
         try {
+            Sort sort = Sort.by(Sort.Direction.ASC,"pname");
+            Pageable pageable = PageRequest.of(page, size,sort);
 
-            Pageable pageable = PageRequest.of(page, size);
+//            Page<Product> page1 = productRepo.findAll(pageable,sort);
+//            List<Product> list = page1.getContent();
+
+
             return getResponseEntity(productRepo.findAll(pageable));
         } catch (Exception e) {
             throw new BusinessException(500, e.getMessage());
