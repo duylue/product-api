@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        table {
+            font-family: arial, sans-serif;
+            border-collapse: collapse;
+            width: 100%;
+        }
+
+        td, th {
+            border: 1px solid #dddddd;
+            text-align: left;
+            padding: 8px;
+        }
+
+        tr:nth-child(even) {
+            background-color: #dddddd;
+        }
+    </style>
+</head>
+<body>
+
+<h2>HTML Table</h2>
+
+<table>
+
+    <tr>
+        <th>id</th>
+        <th>pname</th>
+        <th>price</th>
+        <th>cid</th>
+        <th>sid</th>
+    </tr>
+    <tbody id="view">
+
+    </tbody>
+
+
+</table>
+<script th:src="@{/jquery/jquery-3.7.0.min.js}"></script>
+<!--<script src="../../static/jquery/jquery-3.7.0.min.js"></script>-->
+<script>
+
+    function view() {
+        let listProduct = [
+            {id: 1, pname: "Iphone", cid: 2, sid: 2, price: 100.0},
+            {id: 2, pname: "Iphone", cid: 2, sid: 2, price: 100.0},
+            {id: 3, pname: "Iphone", cid: 2, sid: 2, price: 100.0}
+        ]
+        let sum = 0;
+        console.log(listProduct)
+
+        let tbody = $('#view')
+        let view = '';
+        for (let i = 0; i < listProduct.length; i++) {
+            view += '<tr><td>' + listProduct[i].id + '</td> ' +
+                '<td>' + listProduct[i].pname + '</td>' +
+                '<td>' + listProduct[i].cid + ' </td>' +
+                '<td>' + listProduct[i].price + ' </td>' +
+                '<td>' + listProduct[i].sid + '</td> </tr>'
+        }
+        tbody.append(view)
+
+    }
+
+    function getListAjax() {
+        $.ajax({
+            url: 'http://localhost:8080/pro-api/page-product-list?page=0&size=5',
+            method: 'GET',
+            success: function (resp) {
+                console.log(resp)
+            }
+        })
+    }
+
+    $(document).ready(function () {
+        getListAjax()
+
+    });
+</script>
+</body>
+</html>
+
